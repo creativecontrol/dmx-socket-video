@@ -1,0 +1,67 @@
+<html>
+<head>
+ <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+ <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	
+<div id="content">
+Things
+</div>
+<script>
+	//start with a red dot in upper left
+	document.getElementById("content").innerHTML = "<div style=\"position:absolute;font-size:100px;color:#F00;top:-79px;left:-10px;\">.<\/div>";
+	var socket = io.connect('http://localhost:8000');
+
+	function goBlack(){
+		document.getElementById("content").style.opacity = 0.0;
+	}
+	
+	socket.on('connect',function(){
+    	socket.emit('handshake', 'Hello server');
+  	});
+
+	socket.on('vid', function (data) {
+		var content = document.getElementById("content");
+		var video = document.getElementById("vid");
+		if(data.vid==="Black"){
+			content.style['-webkit-transition'] = "opacity 1s";
+			content.style.opacity = 0.0;
+			//stop video
+			//video.pause();
+		}
+		else if(data.vid==="Green"){
+			content.innerHTML = "<div style=\"position:absolute;font-size:100px;color:#0F0;top:-79px;left:-10px;\">.<\/div>";
+		}
+		else{
+			content.style.opacity = 0.0;
+			if(!video){
+				content.innerHTML = "<video id='vid' autoplay onended=\"goBlack()\"><source src=\""+data.vid+"\" type=\"video\/mp4\"><\/video>";
+				setTimeout(function(){
+					content.style['-webkit-transition'] = "opacity 0.1s";
+					content.style.opacity = 1.0;
+				},5);
+			}
+			else{
+				video.pause();
+				content.style['-webkit-transition'] = "opacity 0";
+				content.style.opacity = 0.0;
+				video.src = data.vid;
+				video.load();
+				//video.play();
+				setTimeout(function(){
+					content.style['-webkit-transition'] = "opacity 0.1s";
+					content.style.opacity = 1.0;
+				},5);
+			}
+		}
+		
+	});
+
+</script>
+
+</body>
+
+
+</html>
