@@ -18,6 +18,10 @@ Any value in between will have no effect. Videos are locked from retriggering as
 Videos will be retriggered if the percentage is changed and then you return to the previous value 5% -> 6% -> 5%.  
 Videos are not protected from retriggering if they are already playing. 
 
+##Video formatting
+We recommend [MPEGStreamclip](http://www.squared5.com/) as an encoding software.  
+Clips should be encoded as MPEG-4 with h.264 compression.  Our tests have used 70% quality encoding. 
+
 
 
 
