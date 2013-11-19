@@ -33,7 +33,7 @@ def rangeCheck(data):
 	global hold
 	global video
 	global vids
-	slot = int(data[chan]/2.55) #get percentage
+	slot = int(round(data[chan]/2.55)) #get percentage
 	video = ""
 	if(slot!=hold):	#if a different value comes in
 		#print "incoming channel: "+str(data[chan])
